@@ -94,6 +94,15 @@ img {
 <h2>Accessing the Data to Run the Analysis Script</h2>
 <p>Our dataset is collected from the accelerometers from a Samsung Galaxy S smartphone. <a href="http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones" class="uri">http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones</a></p>
 <p>The URL for the full dataset is as follows: <a href="https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip">https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip</a> Due to github’s file upload limits, I have not uploaded the dataset itself. Please download the above file, unzip it in your working directory, and my code should work.</p>
+<p>More specifically, the following files will be read:</p>
+<ul>
+<li>/train/X_train.txt</li>
+<li>/train/y_train.txt</li>
+<li>/test/X_test.txt</li>
+<li>/test/y_test.txt</li>
+<li>/test/subject_test.txt</li>
+<li>/activity_labels.txt</li>
+</ul>
 <p>Open <code>run_analysis.R</code> and press <code>Run</code> in the upper righthand corner of your console. (You will need to install ggplot2, data.table and dplyr beforehand)</p>
 </div>
 <div id="more-info-on-how-run_analysis.r-works" class="section level2">

@@ -37,6 +37,15 @@ The URL for the full dataset is as follows: <https://d396qusza40orc.cloudfront.n
 Due to github's file upload limits, I have not uploaded the dataset itself.
 Please download the above file, unzip it in your working directory, and my code should work.
 
+More specifically, the following files will be read:
+
+  * /train/X_train.txt
+  * /train/y_train.txt
+  * /test/X_test.txt
+  * /test/y_test.txt
+  * /test/subject_test.txt
+  * /activity_labels.txt
+
 Open `run_analysis.R` and press `Run` in the upper righthand corner of your console.
 (You will need to install ggplot2, data.table and dplyr beforehand)
 

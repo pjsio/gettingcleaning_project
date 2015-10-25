@@ -87,3 +87,18 @@ The result is stored in `means`.
 
 ### 6. Outputting to a Textfile
 As instructed, I output my result(`means`) into a textfile using write.table and setting `row.name` to `FALSE`.
+
+
+## Description of Variables in the Tidy Data
+
+  1) The dimension of the dataset is 180 rows by 13 columns.
+
+Each row represents a non-redundant entry, and is organized first by `subjnum`(representing Volunteer ID) (30) and `activity` (6) for each volunteer (30*6=180 rows).
+
+  2) The class of the `subjnum` and `activity` columns are factor variables. The rest are doubles representing averages for body / gyro acceleration for x,y,z axes.
+
+  3) Decoding the stats columns:
+
+For example, in `taccmeanx`, `t` denotes the 'time'. `acc` denotes acceleration (whereas `gyro` denotes gyroscope 3-axial movements), `mean` and `x` denote the mean for the x axis.
+
+  4) Unit of measurement is at a constant rate of 50Hz
