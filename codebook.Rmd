@@ -76,7 +76,7 @@ But because the first two columns in `merged` represent VOLUNTEER and ACTIVITY, 
 ### 3. Name the Activities
 Because numeric column names are uninformative, I read in activity labels and into `acti.labels` and match them to the activity numbers(`actinum`) in `merged` (FYI, `V1` contains the activity numbers and `V2` contains the activity labels in `acti.labels`).
 
-### 4. Give Appropriate Lables (continued)
+### 4. Give Appropriate Labels (continued)
 The measurements are manually assigned using the `colnames` function.
 
 ### 5. Summarizing the Stats
