@@ -137,6 +137,18 @@ dim(x)[1] ## This is the number of measurements</code></pre>
 <p>As instructed, I output my result(<code>means</code>) into a textfile using write.table and setting <code>row.name</code> to <code>FALSE</code>.</p>
 </div>
 </div>
+<div id="description-of-variables-in-the-tidy-data" class="section level2">
+<h2>Description of Variables in the Tidy Data</h2>
+<ol style="list-style-type: decimal">
+<li>The dimension of the dataset is 180 rows by 13 columns.</li>
+</ol>
+<p>Each row represents a non-redundant entry, and is organized first by <code>subjnum</code>(representing Volunteer ID) (30) and <code>activity</code> (6) for each volunteer (30*6=180 rows).</p>
+<ol start="2" style="list-style-type: decimal">
+<li><p>The class of the <code>subjnum</code> and <code>activity</code> columns are factor variables. The rest are doubles representing averages for body / gyro acceleration for x,y,z axes.</p></li>
+<li><p>Decoding the stats columns: In <code>taccmeanx</code>, <code>t</code> denotes the ‘time’. <code>acc</code> denotes acceleration (whereas <code>gyro</code> denotes gyroscope 3-axial movements), <code>mean</code> and <code>x</code> denote the mean for the x axis.</p></li>
+<li><p>Unit of measurement is at a constant rate of 50Hz</p></li>
+</ol>
+</div>
 
 
 </div>

@@ -51,4 +51,6 @@ Open `run_analysis.R` and press `Run` in the upper righthand corner of your cons
 
 
 ## More info on how `run_analysis.R` works
-I have made all operations as self-explanatory as possible in the comment blocks in the main R script, but also have attached a Code Book that will explain the study design, variable types, summary choices etc.
+
+  * Make sure to set your working directory to the unzipped UCI HAR Dataset folder. That is, set the working directory inside `getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset`
+  * I have made all operations as self-explanatory as possible in the comment blocks in the main R script, but also have attached a Code Book that will explain the study design, variable types, summary choices etc.
