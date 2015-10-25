@@ -1,22 +1,89 @@
 ---
-title: "Getting and Cleaning Data Course Project"
+title: "Codebook for run_analysis.R"
 author: "JK"
-date: "2015년 10월 25일"
+date: "2015.10.25."
 output: html_document
 ---
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+This code book describes the variables, the data, and any transformations or work that I performed to clean up the UCI dataset in `run_analysis.R`.
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+## The Data
+The UCI dataset measures the movements of 30 volunteers performing a total of 6 activities:
+  1) WALKING
+  2) WALKING_UPSTAIRS
+  3) WALKING_DOWNSTAIRS
+  4) SITTING
+  5) STANDING
+  6) LAYING
 
-```{r}
-summary(cars)
+The measurements for each volunteer comes from the Galaxy S smartphone. According to the explanation contained in `features_info.txt`: <https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip>
+
+"The features selected for this database come from the accelerometer and gyroscope 3-axial raw signals tAcc-XYZ and tGyro-XYZ. These time domain signals (prefix 't' to denote time) were captured at a constant rate of 50 Hz. Then they were filtered using a median filter and a 3rd order low pass Butterworth filter with a corner frequency of 20 Hz to remove noise. Similarly, the acceleration signal was then separated into body and gravity acceleration signals (tBodyAcc-XYZ and tGravityAcc-XYZ) using another low pass Butterworth filter with a corner frequency of 0.3 Hz."
+
+The 'raw signals tAcc-XYZ and tGyro-XYZ' were separated into a training set and a test set for Machine Learning purposes, but for our assignment, we must merge these together to obtain descriptive statistics. The split files are respectively stored under `UCI HAR Dataset/test/Inertial Signals` and `UCI HAR Dataset/train/Inertial Signals`.
+
+There are a total of 9 text files under each folder (each measuring body acceleration, angular movement, and total acceleration). 
+
+```{r, quietly=TRUE}
+require(data.table)
+setwd('D:/getdata-projectfiles-UCI HAR Dataset')
+x <- fread('./UCI HAR Dataset/test/Inertial Signals/total_acc_x_test.txt')
+dim(x)[1] ## This is the number of measurements
+dim(x)[2] ## This is the number of time windows
 ```
 
-You can also embed plots, for example:
+As can be observed, there are 128 intervals (at a constant rate of 50Hz) in which the raw measures are taken. From this data, 561 features are calculated for all 10299 (7352 for train set, 2947 for test set) measurements.
 
-```{r, echo=FALSE}
-plot(cars)
-```
+The instructions of the project require us to extract "only the measurements on the mean and standard deviation for each measurement." While I can calculate the mean and standard deviation for the raw dataset, that job has been already done by the providers of the dataset. 
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+See under `UCI HAR Dataset/test` three files, `subject_test.txt`, `X_test.txt` and `y_test.txt` 
+The 561 features(including mean and standard deviation for raw data) calculated from the raw dataset are stored in `X_test.txt`. Each row (with its 561 measures) in this file corresponds to the dummy for the 30 volunteers stored in `subject_test.txt`, and the 6 positions stored in `y_test.txt` (replace `test` with `train` to obtain training set data).
+
+## Study Design and Variables of Interest
+The objective of this exercise is to get the descriptive stat(mean and standard deviation) for each subject(30) categorized into each activity (6).
+Therefore, the variables of interest are the x,y,z acceleration AND gyro measures (3 * 2 == 6 columns in wide format). The corresponding variable names in `features.txt` are as follows:
+
+  1) tBodyAcc-mean()-X
+  2) tBodyAcc-mean()-Y
+  3) tBodyAcc-mean()-Z
+  4) tBodyAcc-std()-X
+  5) tBodyAcc-std()-Y
+  6) tBodyAcc-std()-Z
+
+  121) tBodyGyro-mean()-X
+  122) tBodyGyro-mean()-Y
+  123) tBodyGyro-mean()-Z
+  124) tBodyGyro-std()-X
+  125) tBodyGyro-std()-Y
+  126) tBodyGyro-std()-Z
+
+Our tidy dataset would also organize a row for each measurement (arranged by VOLUNTEER(30) and ACTIVITY(6), or 30*6==180 rows).
+
+
+## Summary Transformations
+### 1. Merge Subject, Activities and Features
+After reading the X, y and subject test files for train and test data with data.table's fread function, we first merge the train and test datasets.
+
+`name.stuff.test` and `name.stuff.train` each bind the x,y and subject test file columns so that they contain the VOLUNTEER, ACTIVITY, and Measurement Features in each row.
+Afterwards, we bind the rows of `name.stuff.test` and `name.stuff.train` through dplyr's `bind_rows` function.
+
+Henceforth, we work with `merged` which contains the combined data.
+
+### 2. Extracting The Necessary Information
+The acceleration and gyro stats features are stored in columns 1:6 and 121:126 of the `features.txt`.
+But because the first two columns in `merged` represent VOLUNTEER and ACTIVITY, we select columns 1:8 and 123:128 with dplyr.
+
+### 3. Name the Activities
+Because numeric column names are uninformative, I read in activity labels and into `acti.labels` and match them to the activity numbers(`actinum`) in `merged` (FYI, `V1` contains the activity numbers and `V2` contains the activity labels in `acti.labels`).
+
+### 4. Give Appropriate Lables (continued)
+The measurements are manually assigned using the `colnames` function.
+
+### 5. Summarizing the Stats
+Before summarizing, I make sure to list the VOLUNTEERS and ACTIVITIES as factors (dplyr requires this).
+Finally, I group `merged` by `subjnum` (Volunteer Number) and `activity` (Activity Label) to summarize the *'average of each variable for each activity and each subject.'* as required by the instructions.
+
+The result is stored in `means`.
+
+### 6. Outputting to a Textfile
+As instructed, I output my result(`means`) into a textfile using write.table and setting `row.name` to `FALSE`.

@@ -43,27 +43,37 @@ merged <- bind_rows(name.stuff.test, name.stuff.train)
 # 4 tBodyAcc-std()-X
 # 5 tBodyAcc-std()-Y
 # 6 tBodyAcc-std()-Z
+# 121 tBodyGyro-mean()-X
+# 122 tBodyGyro-mean()-Y
+# 123 tBodyGyro-mean()-Z
+# 124 tBodyGyro-std()-X
+# 125 tBodyGyro-std()-Y
+# 126 tBodyGyro-std()-Z
 
-six_measures <- merged %>%
-  select(1:8)
-colnames(six_measures) <- c('subjnum', 'actinum', seq(6))
+measures <- merged %>%
+  select(1:8, 123:128)
+colnames(measures) <- c('subjnum', 'actinum', seq(12))
 
 ## 3. Name the Activities
 acti.labels <- fread('./activity_labels.txt')
-six_measures$activity <- lapply(six_measures$actinum, function(x) acti.labels$V2[acti.labels$V1==x])
+measures$activity <- lapply(measures$actinum, function(x) acti.labels$V2[acti.labels$V1==x])
 
 ## 4. Give Appropriate Labels
-colnames(six_measures) <- c('subjnum', 'actinum','taccmeanx',
+colnames(measures) <- c('subjnum', 'actinum','taccmeanx',
                             'taccmeany','taccmeanz',
-                            'taccstdx', 'taccstdy', 'taccstdz', 'activity')
+                            'taccstdx', 'taccstdy', 'taccstdz', 
+                            'tgyromeanx', 'tgyromeany', 'tgyromeanz',
+                            'tgyrostdx', 'tgyrostdy', 'tgyrostdz',
+                            'activity')
 
 ## 5. From the data set in step 4, creates a second, independent tidy data set
 ##    with the average of each variable for each activity and each subject.
-six_measures$subjnum <- as.factor(six_measures$subjnum)
-six_measures$activity <- as.factor(unlist(six_measures$activity))
-means <- six_measures %>%
+measures$subjnum <- as.factor(measures$subjnum)
+measures$activity <- as.factor(unlist(measures$activity))
+means <- measures %>%
   group_by(subjnum, activity) %>%
-  summarise(mean(taccmeanx), mean(taccmeany), mean(taccmeanz), mean(taccstdx), mean(taccstdy), mean(taccstdz))
+  summarise(mean(taccmeanx), mean(taccmeany), mean(taccmeanz), mean(taccstdx), mean(taccstdy), mean(taccstdz),
+            mean(tgyromeanx),mean(tgyromeany), mean(tgyromeanz), mean(tgyrostdx), mean(tgyrostdy), mean(tgyrostdz))
 
 ## 6. write the data out as a txt file
 write.table(means, file = './tidydata.txt', row.name=FALSE)

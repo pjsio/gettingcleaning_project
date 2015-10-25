@@ -1,0 +1,45 @@
+---
+title: "ReadMe"
+author: "JK"
+date: "2015.10.25."
+output: html_document
+---
+## Introduction
+
+This repo contains my coursework for the John Hopkins University - Coursera module on Getting and Cleaning Data, taught by Dr. Jeff Leek. Completing this course project is fulfills a core course requirement.
+
+
+## Project Requirements
+The project requires the student "to demonstrate your ability to collect, work with, and clean a data set. The goal is to prepare tidy data that can be used for later analysis."
+
+More specifically, I am required to submit
+
+1) a tidy data set
+2) a link to a Github repository with my script for performing the analysis
+3) a code book that describes the variables, the data, and any transformations or work that you performed to clean up the data called CodeBook.md.
+
+As for the main R script, I must "create one R script called `run_analysis.R` that does the following.
+
+  1. Merges the training and the test sets to create one data set.
+  2. Extracts only the measurements on the mean and standard deviation for each measurement. 
+  3. Uses descriptive activity names to name the activities in the data set
+  4. Appropriately labels the data set with descriptive variable names. 
+  5. From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject. "
+
+In sum, you will find the `readme.rmd` file (which you are reading), `CodeBook.md`(for the third requirement), and `run_analysis.R` (for the second requirement).
+
+## Accessing the Data to Run the Analysis Script
+
+Our dataset is collected from the accelerometers from a Samsung Galaxy S smartphone.
+<http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones>
+
+The URL for the full dataset is as follows: <https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip>
+Due to github's file upload limits, I have not uploaded the dataset itself.
+Please download the above file, unzip it in your working directory, and my code should work.
+
+Open `run_analysis.R` and press `Run` in the upper righthand corner of your console.
+(You will need to install ggplot2, data.table and dplyr beforehand)
+
+
+## More info on how `run_analysis.R` works
+I have made all operations as self-explanatory as possible in the comment blocks in the main R script, but also have attached a Code Book that will explain the study design, variable types, summary choices etc.
